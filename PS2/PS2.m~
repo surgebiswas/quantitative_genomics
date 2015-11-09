@@ -66,28 +66,17 @@ code = strcmpi(d.LocationType, 'SYNON') | strcmpi(d.LocationType, 'NON-SYN');
 dc = d(code,:);
 O = zeros(size(B));
 for i = 1 : size(dc,1)
-    if ~strcmpi(dc.aa1{i}, '***')
-        from = aminolookup('Abbreviation', dc.aa1{i});
-        to = aminolookup('Abbreviation', dc.aa2{i});
-
-        i1 = aa2int(to(1));
-        i2 = aa2int(from(1));
-
-        O(i1,i2) = O(i1,i2) + 1;
-    end
+    from = aminolookup('Abbreviation', dc.aa1);
+    to = aminolookup('Abbreviation', dc.aa2);
+    
+    i1 = aa2int(to(1));
+    i2 = aa2int(from(2));
+    
+    O(i1,i2) = O(i1,i2) + 1;
     
 end
 
-figure;
-hold on
-plot(reshape(B,24*24,1), reshape(O, 24*24,1), 'ok')
-axis square
-xlabel('BLOSUM62 score', 'FontSize', 18);
-ylabel('Observed number of transitions', 'FontSize', 18);
-set(gca, 'FontSize', 16);
-box on
-plotSave('BLOSUM62_vs_observed.png');
-close
+
 
 
 
